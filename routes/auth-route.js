@@ -16,27 +16,24 @@ route.post(
     body("email")
       .notEmpty()
       .isEmail()
-      .withMessage("Not a valid e-mail address")
+      .withMessage("alamat e-mail tidak valid")
       .custom(async (value) => {
         const user = await User.findOne({ email: value });
 
         if (user) {
-          throw new Error("E-mail already in use");
+          throw new Error("E-mail sudah terdaftar");
         }
       }),
     body("password")
       .isLength({ min: 6 })
-      .withMessage("Password length must be more than 6"),
+      .withMessage("Panjang password harus lebih dari 6 karakter!"),
   ]),
   registerController
 );
 route.post(
   "/login",
   validate([
-    body("email")
-      .notEmpty()
-      .isEmail()
-      .withMessage("Not a valid e-mail address"),
+    body("email").notEmpty().isEmail().withMessage("alamat e-mail tidak valid"),
     body("password").notEmpty(),
   ]),
   loginController
