@@ -31,14 +31,14 @@ module.exports = {
     }
 
     const match = await bcrypt.compare(userData.password, user.password);
-
     if (match) {
       const token = createJWTToken(user.id);
-
+      user.password = undefined;
       res.status(200).json({
         message: "success login",
         data: {
           token,
+          user,
         },
       });
       return;
